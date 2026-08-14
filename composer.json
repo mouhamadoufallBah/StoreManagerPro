@@ -1,0 +1,15 @@
+{
+    "name": "moohamad/store-manager-pro",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "Src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mouhamadoufallbah",
+            "email": "mouhamadoufall.bah@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -12,3 +12,7 @@
 - **Heure de réalisation** : 20h30 - 22h00
 - **Ce qui a été fait** : Realisation du schema sql et sqlite
 - **Difficultés / Obstacles** : j'ai eu un peu de mal a cerner le sqlite au debut car je pensais que je devais seulement creer le schema et le lier avec l'extension database dans vscode. jai tape cette commande pour creer le fichier erp.db"sqlite3 /home/moohamad/Bureau/StoreManagerPro/doc/erp.db < /home/moohamad/Bureau/StoreManagerPro/doc/schema_sqlite.sql" cette commande creer le fichier erp.db puis lit et execute les requette pour creer les table. Je note que jai installer sqlite3 et aussi on peus manipuler la base de donne via le terminal. Ce qui le differencie avec les sgbd sqlite n'as pas besoin de server.
+
+- **Heure de réalisation** : 22h22 - 23h00
+- **Ce qui a été fait** : Implementation de Database Singleton avec fallback automatique   PostgreSQL vers SQLite
+- **Difficultés / Obstacles** : 
