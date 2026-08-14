@@ -1,0 +1,96 @@
+@startuml
+left to right direction
+
+class Utilisateur {
+    + id: Int
+    + nom: String
+    + email: String
+    + motDePasse: String
+}
+
+class Role {
+    +id: Int
+    +libelle: String
+}
+
+class Client {
+    + id: Int
+    + nom: String
+    + telephone: String
+    + adresse: String
+    + encoursTotal: Float
+}
+
+class Fournisseur {
+    + id: Int
+    + nom: String
+    + telephone: String
+    + soldeCompte: Float
+}
+
+class Produit {
+    + id: Int
+    + libelle: String
+    + prixUnitaire: Float
+    + stockActuel: Integer
+    + seuilAlerteRupture: Integer
+}
+
+class Vente {
+    + id: Int
+    + dateVente: DateTime
+    + montantTotal: Float
+    + montantEncaisse: Float
+    + typePaiement: String
+    + statutPaiement: StatutPaiementEnum
+}
+
+class LigneVente {
+    + id: Int
+    + quantite: Integer
+    + prixUnitaire: Float
+}
+
+class Dette {
+    + id: Int
+    + montantInitial: Float
+    + resteAPayer: Float
+    + dateEcheance: Date
+    + estSoldee: Boolean
+}
+
+class PaiementDette {
+    + id: Int
+    + montantPaye: Float
+    + datePaiement: DateTime
+    + methodePaiement: String
+}
+
+class Approvisionnement {
+    + id: Int
+    + dateApprovisionnement: DateTime
+    + coutTotal: Float
+    + referenceBon: String
+}
+
+class LigneApprovisionnement {
+    + id: Int
+    + quantiteCommandee: Integer
+    + prixAchatUnitaire: Float
+}
+
+Utilisateur "1" -- "*" Vente
+Utilisateur "*" -- "1" Role
+Utilisateur "1" -- "*" Approvisionnement
+Utilisateur "1" -- "*" Client
+Utilisateur "1" -- "*" Fournisseur
+Client "1" -- "*" Vente
+Client "1" -- "*" Dette
+Vente "1" -- "*" LigneVente
+Produit "1" -- "*" LigneVente
+Dette "1" -- "*" PaiementDette
+Fournisseur "1" -- "*" Approvisionnement
+Approvisionnement "1" -- "*" LigneApprovisionnement
+Produit "1" -- "*" LigneApprovisionnement
+
+@enduml

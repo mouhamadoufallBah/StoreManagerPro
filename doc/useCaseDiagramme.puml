@@ -1,0 +1,121 @@
+@startuml
+left to right direction
+actor "Admin Boutique" as AB
+actor "Chargé de Vente" as CV
+actor "Chargé de Stock" as CS
+actor "UserConnected"
+
+rectangle "Chargé de Stock" {
+    usecase "enregistrer un produit" as UC1
+    usecase "enregistrer un client" as UC2
+    usecase "enregistrer un fournisseur" as UC3
+    usecase "Voir le catalogue de produit" as UC4
+    usecase "Voir le repertoire de client" as UC5
+    usecase "Voir le repertoire de fournisseur" as UC6
+    usecase "Filter le produit par son libelle" as UC7
+    usecase "Voir les KPI(Valeur de stock, nombre client enregistrer, nombre d'arcticle)" as UC8
+
+    UC7 .> UC4 : include
+}
+
+rectangle "Chargé de Vente" {
+    usecase "enregistrer une vente" as UC9
+    usecase "Selectionner un client" as UC10
+    usecase "Selectionner un produit" as UC11
+    usecase "Gestion du panier" as UC12
+    usecase "Selectionner un produit" as UC13
+    usecase "Voir la liste des ventes" as UC14
+    usecase "Voir une ligne de commande" as UC15
+    usecase "Voir les KPI des ventes(CA encaissé Net,Encours client total,Commandes enregistre)" as UC16
+    usecase "Voir la liste des dettes" as UC17
+    usecase "Filtrer les dettes par clients" as UC18
+    usecase "Voir les articles qui sont l'objet du dettes " as UC19
+    usecase "Voir l'historique des paiement " as UC20
+    usecase "Enregistrer un  remboursement d'une dette " as UC21
+    usecase "Selectionner une methode de paiement " as UC22
+    usecase "Voir les KPI des dettes(CA encaissé Net,Encours client total,Commandes enregistre)" as UC23
+
+    UC9 .> UC10 : include
+    UC9 .> UC11 : include
+    UC9 .> UC12 : include
+    UC9 .> UC13 : include
+    UC14 <.. UC15 : extend
+
+    UC17 <.. UC18 : extend
+    UC17 <.. UC19 : extend
+    UC17 <.. UC20 : extend
+    UC17 <.. UC21 : extend
+    UC21 .> UC22 : include
+}
+
+rectangle "Admin Boutique" {
+    usecase "Voir la liste des approvisionnement" as UC24
+    usecase "Voir les lignes de l'approvisionnement" as UC25
+    usecase "Faire une reception" as UC26
+    usecase "Voir les KPI des approvisionnement(Cout des entre, Bon de reception, Fournisseur actif)" as UC27
+    usecase "Voir l'ensmble des KPI dans dashboard " as UC28
+    usecase "Voir les ventes recentes " as UC29
+    usecase "Voir les dettes du jour " as UC30
+    usecase "Voir les produit en rupture de stock" as UC31
+    usecase "Faire une approvisionnment" as UC32
+    usecase "Selectionner un fournisseur" as UC33
+    usecase "Voir la reception du jour" as UC34
+    usecase "Voir les dette en cours des client" as UC35
+    usecase "Voir le detail du dette" as UC36
+    usecase "Redirection vers l'ecran de remboursement" as UC37
+    usecase "Voir le solde des fournisseur" as UC38
+    usecase "Voir le solde des fournisseur" as UC39
+    usecase "Enregistrer le paiment total du au fournisseur" as UC40
+
+
+    UC24 <.. UC25 : extend
+    UC24 <.. UC26 : extend
+    UC31 <.. UC32 : extend
+    UC32 .> UC33 : include
+    UC35 <.. UC36 : extend
+    UC35 <.. UC37 : extend
+    UC38 <.. UC39 : extend
+    UC38 <.. UC40 : extend
+}
+
+rectangle "Connexion" {
+    usecase "s'authentifier" as CONNEXION
+} 
+
+CS --> UC1
+CS --> UC2
+CS --> UC3
+CS --> UC4
+CS --> UC5
+CS --> UC6
+CS --> UC8
+
+CV --> UC9
+CV --> UC14
+CV --> UC16
+CV --> UC17
+CV --> UC23
+
+AB --> UC24
+AB --> UC27
+AB --> UC28
+AB --> UC29
+AB --> UC30
+AB --> UC31
+AB --> UC34
+AB --> UC35
+AB --> UC38
+
+UserConnected --> CONNEXION
+
+
+
+
+AB --|> CS
+AB --|> CV
+
+AB --|> UserConnected
+CV --|> UserConnected
+CS --|> UserConnected
+
+@enduml
