@@ -2,7 +2,7 @@
     "name": "moohamad/store-manager-pro",
     "autoload": {
         "psr-4": {
-            "Src\\": "Src/"
+            "StoreManagerPro\\Src\\": "src/"
         }
     },
     "authors": [

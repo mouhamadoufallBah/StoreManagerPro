@@ -15,4 +15,9 @@
 
 - **Heure de réalisation** : 22h22 - 23h00
 - **Ce qui a été fait** : Implementation de Database Singleton avec fallback automatique   PostgreSQL vers SQLite
-- **Difficultés / Obstacles** : 
+- **Difficultés / Obstacles** : Le probleme qui m'as plus pris le temps cette de comprendre dabord le concept comment ca marche et c'etait quoi le but. pour pourquoi on utiliser certaine mot comme static dans cette classe. Le notion du fallback m'etait nouveau aussi mais maitenant j'ai compris qu'il nous permet juste si on arrive pas a ce connecter sur la bd distant il utilse le sqlite dans notre cas
+
+### ☀️ [Samedi - Phase 2] : POO, Repositories & Ventes POS
+- **Heure de réalisation** :  09h - 11h
+- **Ce qui a été fait** : creation des entites POO avec encapsulation et methodes metier
+- **Difficultés / Obstacles** : Je n'ai pas rencoontrer d'obstacle dans cette partie mais j'ai compris que l'encapsulation c'est le fait de rendre les attritbut private non modifiable la ou on instancie les objet mais on creer des methode public pour qui pourrons modifier l'etat de l'objet. Je me suis pose aussi pourqu'on tantot on utilise this tantot self et dans mes recherche j'ai vu que this faisais reference a l'objet a un instant T et self c'est la classe qui n'apartient a aucun objet.
