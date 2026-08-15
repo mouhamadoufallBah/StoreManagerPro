@@ -68,4 +68,30 @@ class Produit
     {
         $this->seuilAlerteRupture = $seuilAlerteRupture;
     }
+
+    public function etatStockEnCouleur(): string
+    {
+        $etat = "";
+        if ($this->stockActuel < 1) {
+            $etat = "🔴";
+        } else {
+            if ($this->stockActuel <= $this->seuilAlerteRupture) {
+                $etat = "🟡";
+            } else {
+                $etat = "🟢";
+            }
+        }
+
+        return $etat;
+    }
+
+    public function getproduitInfo(): string{
+        return "{$this->etatStockEnCouleur()} {$this->libelle} ({$this->stockActuel})" ;
+    }
+
+    public function getproduitInfoForCart(): string{
+        return "{$this->id}-{$this->libelle}-{$this->stockActuel}-{$this->prixUnitaire}" ;
+    }
+
+
 }

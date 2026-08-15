@@ -74,11 +74,12 @@ class VenteService
         $this->session->saveData(self::PANIER, []);
     }
 
-    public function validerVente(int $userId, int $clientId, float $montantEncaisse, string $typePaiement): ?int
+    public function enregistrerVente(int $userId, int $clientId, float $montantEncaisse, string $typePaiement): ?int
     {
         $data = $this->getCart();
         $panier = $data['panier'];
         $montantTotal = $data['montantTotal'];
+
 
         if (empty($panier)) {
             $this->session->saveData('error_message', "Impossible de valider une vente avec un panier vide.");
@@ -105,6 +106,7 @@ class VenteService
 
             return $venteId;
         } catch (Exception $e) {
+            die($e->getMessage());
             $this->session->saveData('error_message', "Erreur lors de la validation de la vente : " . $e->getMessage());
             return null;
         }

@@ -14,15 +14,15 @@ class ProduitRepository extends BaseRepository
     public function findAllProduits(): array
     {
         $results = $this->findAll();
-
+        // var_dump($results); die();
         $produits = [];
-        foreach ($results as $p) {
+        foreach ($results as $produit) {
             $produits[] = new Produit(
-                $p["libelle"],
-                (float)$p["prixUnitaire"],
-                (int)$p["stockActuel"],
-                (int)$p["seuilAlerteRupture"],
-                (int)$p["id"]
+                $produit["libelle"],
+                (float)$produit["prixunitaire"],
+                (int)$produit["stockactuel"],
+                (int)$produit["seuilalerterupture"],
+                (int)$produit["id"]
             );
         }
         return $produits;

@@ -1,6 +1,7 @@
 <?php
 
 namespace StoreManagerPro\Src\Repository;
+
 use StoreManagerPro\Src\Entity\Client;
 
 class ClientRepository extends BaseRepository
@@ -21,6 +22,7 @@ class ClientRepository extends BaseRepository
                 $client["telephone"],
                 $client["adresse"],
                 (float)$client["encoursTotal"],
+                (float)$client["limiteCredit"],
                 (int)$client["id"]
             );
         }

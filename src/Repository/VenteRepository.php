@@ -1,7 +1,9 @@
 <?php
 
 namespace StoreManagerPro\Src\Repository;
+
 use Exception;
+
 class VenteRepository extends BaseRepository
 {
     public function __construct()
@@ -60,5 +62,35 @@ class VenteRepository extends BaseRepository
             $this->db->rollBack();
             throw $e;
         }
+    }
+
+    public function findAllVenteAndLigne(): array
+    {
+        $sql = "SELECT v.*, c.nom, c.telephone 
+                FROM vente v 
+                JOIN client c ON v.client_id = c.id 
+                ORDER BY v.id DESC";
+
+        $stmt = $this->db->query($sql);
+        $ventes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $resultat = [];
+
+        $stmtLignes = $this->db->prepare("
+            SELECT lv.*, p.libelle 
+            FROM lignevente lv 
+            JOIN produit p ON lv.produit_id = p.id 
+            WHERE lv.vente_id = ?
+        ");
+
+        foreach ($ventes as $vente) {
+            $stmtLignes->execute([$vente['id']]);
+            $lignes = $stmtLignes->fetchAll(\PDO::FETCH_ASSOC);
+
+            $vente['lignes'] = $lignes;
+            $resultat[] = $vente;
+        }
+
+        return $resultat;
     }
 }

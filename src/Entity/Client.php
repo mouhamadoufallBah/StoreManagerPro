@@ -76,8 +76,13 @@ class Client
         $this->encoursTotal = $encoursTotal;
     }
 
-        public function setLimiteCredit(float $limiteCredit): void
+    public function setLimiteCredit(float $limiteCredit): void
     {
         $this->limiteCredit = $limiteCredit;
+    }
+
+    public function getClientInfo(): string
+    {
+        return "{$this->nom}   ({$this->telephone})";
     }
 }
