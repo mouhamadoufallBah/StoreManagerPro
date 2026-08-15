@@ -11,7 +11,7 @@ CREATE TABLE Utilisateur (
     email VARCHAR(150) NOT NULL UNIQUE,
     motDePasse VARCHAR(255) NOT NULL,
     role_id INT NOT NULL,
-    CONSTRAINT fk_utilisateur_role FOREIGN KEY (role_id) REFERENCES "Role"(id)
+    CONSTRAINT fk_utilisateur_role FOREIGN KEY (role_id) REFERENCES "role"(id)
 );
 
 CREATE TABLE Client (
@@ -46,8 +46,8 @@ CREATE TABLE Vente (
     statutPaiement VARCHAR(50) NOT NULL,
     utilisateur_id INT NOT NULL,
     client_id INT NOT NULL,
-    CONSTRAINT fk_vente_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES "Utilisateur"(id),
-    CONSTRAINT fk_vente_client FOREIGN KEY (client_id) REFERENCES "Client"(id)
+    CONSTRAINT fk_vente_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES "utilisateur"(id),
+    CONSTRAINT fk_vente_client FOREIGN KEY (client_id) REFERENCES "client"(id)
 );
 
 CREATE TABLE LigneVente (
@@ -56,8 +56,8 @@ CREATE TABLE LigneVente (
     prixUnitaire NUMERIC(12, 2) NOT NULL,
     vente_id INT NOT NULL,
     produit_id INT NOT NULL,
-    CONSTRAINT fk_lignevente_vente FOREIGN KEY (vente_id) REFERENCES "Vente"(id) ON DELETE CASCADE,
-    CONSTRAINT fk_lignevente_produit FOREIGN KEY (produit_id) REFERENCES "Produit"(id)
+    CONSTRAINT fk_lignevente_vente FOREIGN KEY (vente_id) REFERENCES "vente"(id) ON DELETE CASCADE,
+    CONSTRAINT fk_lignevente_produit FOREIGN KEY (produit_id) REFERENCES "produit"(id)
 );
 
 CREATE TABLE Dette (
@@ -67,7 +67,7 @@ CREATE TABLE Dette (
     dateEcheance DATE,
     estSoldee BOOLEAN NOT NULL DEFAULT FALSE,
     client_id INT NOT NULL,
-    CONSTRAINT fk_dette_client FOREIGN KEY (client_id) REFERENCES "Client"(id)
+    CONSTRAINT fk_dette_client FOREIGN KEY (client_id) REFERENCES "client"(id)
 );
 
 CREATE TABLE PaiementDette (
@@ -76,7 +76,7 @@ CREATE TABLE PaiementDette (
     datePaiement TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     methodePaiement VARCHAR(50) NOT NULL,
     dette_id INT NOT NULL,
-    CONSTRAINT fk_paiementdette_dette FOREIGN KEY (dette_id) REFERENCES "Dette"(id) ON DELETE CASCADE
+    CONSTRAINT fk_paiementdette_dette FOREIGN KEY (dette_id) REFERENCES "dette"(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Approvisionnement (
@@ -86,8 +86,8 @@ CREATE TABLE Approvisionnement (
     referenceBon VARCHAR(100),
     utilisateur_id INT NOT NULL,
     fournisseur_id INT NOT NULL,
-    CONSTRAINT fk_appro_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES "Utilisateur"(id),
-    CONSTRAINT fk_appro_fournisseur FOREIGN KEY (fournisseur_id) REFERENCES "Fournisseur"(id)
+    CONSTRAINT fk_appro_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES "utilisateur"(id),
+    CONSTRAINT fk_appro_fournisseur FOREIGN KEY (fournisseur_id) REFERENCES "fournisseur"(id)
 );
 
 CREATE TABLE LigneApprovisionnement (
@@ -96,6 +96,6 @@ CREATE TABLE LigneApprovisionnement (
     prixAchatUnitaire NUMERIC(12, 2) NOT NULL,
     approvisionnement_id INT NOT NULL,
     produit_id INT NOT NULL,
-    CONSTRAINT fk_ligneappro_appro FOREIGN KEY (approvisionnement_id) REFERENCES "Approvisionnement"(id) ON DELETE CASCADE,
-    CONSTRAINT fk_ligneappro_produit FOREIGN KEY (produit_id) REFERENCES "Produit"(id)
+    CONSTRAINT fk_ligneappro_appro FOREIGN KEY (approvisionnement_id) REFERENCES "approvisionnement"(id) ON DELETE CASCADE,
+    CONSTRAINT fk_ligneappro_produit FOREIGN KEY (produit_id) REFERENCES "produit"(id)
 );

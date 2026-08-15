@@ -9,13 +9,15 @@ class Client
     private string $telephone;
     private string $adresse;
     private float $encoursTotal;
+    private float $limiteCredit;
 
-    public function __construct(string $nom, string $telephone, string $adresse, float $encoursTotal = 0.0, ?int $id = null)
+    public function __construct(string $nom, string $telephone, string $adresse, float $encoursTotal = 0.0, float $limiteCredit = 0.0, ?int $id = null)
     {
         $this->nom = $nom;
         $this->telephone = $telephone;
         $this->adresse = $adresse;
         $this->encoursTotal = $encoursTotal;
+        $this->limiteCredit = $limiteCredit;
         $this->id = $id;
     }
 
@@ -44,6 +46,11 @@ class Client
         return $this->encoursTotal;
     }
 
+    public function getLimiteCredit(): float
+    {
+        return $this->limiteCredit;
+    }
+
     public function setId(?int $id): void
     {
         $this->id = $id;
@@ -67,5 +74,10 @@ class Client
     public function setEncoursTotal(float $encoursTotal): void
     {
         $this->encoursTotal = $encoursTotal;
+    }
+
+        public function setLimiteCredit(float $limiteCredit): void
+    {
+        $this->limiteCredit = $limiteCredit;
     }
 }
