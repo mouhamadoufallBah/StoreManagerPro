@@ -21,3 +21,8 @@
 - **Heure de réalisation** :  09h - 11h
 - **Ce qui a été fait** : creation des entites POO avec encapsulation et methodes metier
 - **Difficultés / Obstacles** : Je n'ai pas rencoontrer d'obstacle dans cette partie mais j'ai compris que l'encapsulation c'est le fait de rendre les attritbut private non modifiable la ou on instancie les objet mais on creer des methode public pour qui pourrons modifier l'etat de l'objet. Je me suis pose aussi pourqu'on tantot on utilise this tantot self et dans mes recherche j'ai vu que this faisais reference a l'objet a un instant T et self c'est la classe qui n'apartient a aucun objet.
+
+- **Heure de réalisation** :  11h - 13h
+- **Ce qui a été fait** : mise en place des classes Repository avec requetes preparees PDO
+- **Difficultés / Obstacles** : Le probleme que j'ai rencontrer dans cette partie c'est comment ecrire mes 3 fichier sans me repeter sur l'ecriture des requtte et l'execution. Precedement dans le projet gestion note poo j'avais une classe database qu'on pouvait instancier et dedans j'avais toute les methode qui permettait de communiquer avec la base mais avec l'approche singleton je pouvais pas metre ses fonction dans la classe Database car il aurait plus de responsabilite que prevu. C'est dans cette optique que jai decouvert la notion d'heritage qui me permettrait de regrouper tout les code redondant Dans BaseRepository et les autre class Repository vont heriter de ses attribut et methode.
+j'ai vu aussi si la classe paarent et enfant on des methode qui se ressemble on pouvais preciser lequel on fait appel si c'est le parent on le precede par parent:: sinon on met this
