@@ -9,6 +9,18 @@ class Router
     public function __construct()
     {
         $this->routes = [
+            '/auth' => [
+                'controller' => 'StoreManagerPro\Src\controller\AuthController',
+                'action' => 'login'
+            ],
+            '/' => [
+                'controller' => 'StoreManagerPro\Src\controller\DashboardController',
+                'action' => 'index'
+            ],
+            '/tiers' => [
+                'controller' => 'StoreManagerPro\Src\controller\TierController',
+                'action' => 'index'
+            ],
             '/pos' => [
                 'controller' => 'StoreManagerPro\Src\controller\PosController',
                 'action' => 'index'
@@ -41,6 +53,10 @@ class Router
                 'controller' => 'StoreManagerPro\Src\controller\ApprovisionnementController',
                 'action' => 'reception'
             ],
+            '/logout' => [
+                'controller' => 'StoreManagerPro\Src\controller\AuthController',
+                'action' => 'logout'
+            ],
 
         ];
     }
@@ -53,6 +69,11 @@ class Router
             echo "Page introuvable";
             exit;
         }
+
+        // if ($uri != "/auth" && !SessionManager::isConnected()) {
+        //     header("Location: http://localhost:8000/auth");
+        //     exit;
+        // }
 
         $controllerClass = $this->routes[$uri]['controller'];
         $action = $this->routes[$uri]['action'];

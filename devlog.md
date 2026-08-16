@@ -43,3 +43,7 @@ j'ai vu aussi si la classe paarent et enfant on des methode qui se ressemble on 
 - **Heure de réalisation** : 11h30 - 13h30
 - **Ce qui a été fait** : Ajout de la reception de bons de livraison et incrementation automatique du stock
 - **Difficultés / Obstacles** : RAS
+
+- **Heure de réalisation** : 14h30 - 16h30
+- **Ce qui a été fait** : Implementation de l'authentification multi-profils et restriction des acces par role
+- **Difficultés / Obstacles** : J'ai eu un peu de mal a trouve une logique de restriction sans autant casse la classe Router.

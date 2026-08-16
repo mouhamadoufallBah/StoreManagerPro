@@ -2,7 +2,9 @@
 define("BASEPATH", dirname(__DIR__));
 require_once(BASEPATH."/vendor/autoload.php");
 use StoreManagerPro\Src\Core\Router;
+use StoreManagerPro\Src\Core\SessionManager;
 
+SessionManager::getInstance();
 $router = new Router();
 
 $router->redirection();
