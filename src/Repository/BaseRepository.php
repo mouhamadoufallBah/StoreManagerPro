@@ -25,11 +25,13 @@ class BaseRepository
         return $result;
     }
 
-    public function findByKey(string $column, mixed $value): array
+    public function findByKey(string $column, mixed $value, ?string $table = null, bool $single = false): array
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->tableName} WHERE {$column} = ?");
+        $table = $table ?? $this->tableName;
+        $stmt = $this->db->prepare("SELECT * FROM {$table} WHERE {$column} = ?");
         $stmt->execute([$value]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $single ? $stmt->fetch(PDO::FETCH_ASSOC) : $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function save(array $data): bool

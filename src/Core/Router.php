@@ -25,6 +25,14 @@ class Router
                 'controller' => 'StoreManagerPro\Src\controller\PosController',
                 'action' => 'addVente'
             ],
+            '/dette' => [
+                'controller' => 'StoreManagerPro\Src\controller\DetteController',
+                'action' => 'index'
+            ],
+            '/dette/remboursement' => [
+                'controller' => 'StoreManagerPro\Src\controller\DetteController',
+                'action' => 'remboursement'
+            ],
 
         ];
     }

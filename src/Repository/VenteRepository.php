@@ -16,21 +16,19 @@ class VenteRepository extends BaseRepository
         $this->db->beginTransaction();
 
         try {
-            $client = $this->findByKey("id", $clientId);
+            $client = $this->findByKey("id", $clientId, "client", true);
 
             if (!$client) {
                 throw new Exception('Client introuvable.');
             }
-
-            $encoursActuel = (float)$client['encoursTotal'];
+            $encoursActuel = (float)$client['encourstotal'];
             $limiteCredit = (float)$client['limitecredit'];
-
+            
             $statutPaiement = ($montantEncaisse >= $montantTotal) ? 'Payé' : 'Partiel';
             $resteAPayer = 0.00;
 
             if ($statutPaiement === 'Partiel') {
                 $resteAPayer = $montantTotal - $montantEncaisse;
-
                 if (($encoursActuel + $resteAPayer) > $limiteCredit) {
                     throw new Exception("Vente refusée : Le client dépasse sa limite de crédit autorisée (Limite : {$limiteCredit}, Encours après vente : " . ($encoursActuel + $resteAPayer) . ").");
                 }
@@ -49,8 +47,8 @@ class VenteRepository extends BaseRepository
             }
 
             if ($statutPaiement === 'Partiel') {
-                $stmtDette = $this->db->prepare("INSERT INTO dette (montantInitial, resteAPayer, estSoldee, client_id) VALUES (?, ?, FALSE, ?)");
-                $stmtDette->execute([$resteAPayer, $resteAPayer, $clientId]);
+                $stmtDette = $this->db->prepare("INSERT INTO dette (montantInitial, resteAPayer, estSoldee, venteId) VALUES (?, ?, FALSE, ?)");
+                $stmtDette->execute([$resteAPayer, $resteAPayer, $venteId]);
 
                 $stmtClientUpdate = $this->db->prepare("UPDATE client SET encoursTotal = encoursTotal + ? WHERE id = ?");
                 $stmtClientUpdate->execute([$resteAPayer, $clientId]);

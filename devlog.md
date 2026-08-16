@@ -34,3 +34,8 @@ j'ai vu aussi si la classe paarent et enfant on des methode qui se ressemble on 
 - **Heure de réalisation** :  17h - 20h
 - **Ce qui a été fait** : finalisation du controleur et de l'interface de caisse tactile
 - **Difficultés / Obstacles** : Le probleme que jai rencontrer dans cette partie se trouvais dans la partie Routage car je voulais injecter les services mais j'ai pas trouver le moyen de le dynamiser et j'ai instancier les classe a chaque fois que j'en avait besoin. J'ai eu aussi une probleme le nom des colonne et mes attributs 
+
+### 🚀 [Dimanche - Phase 3] : Dettes, Approvisionnements & Rôles
+- **Heure de réalisation** : 09h00 - 11h30
+- **Ce qui a été fait** : Ajout du service de remboursement partiel et mise a jour des statuts SOLDEE
+- **Difficultés / Obstacles** : Le probleme rencontrer ici est le fait de me rendre compte mon diagramme de classe ne pouvais pas resoudre les besoins de l'interface. J'ai du faire un retour en arriere corriger le diagramme les entite etc. Apart ca aussi la logique qui m'as permis de reorganiser la la liste des dette en imbriquant les produits et paiements concerne m'as pris un peut de temps car je voulais faire une seul requette de jointure qui ammene tout les information puis faire le groupage au niveau du repository.

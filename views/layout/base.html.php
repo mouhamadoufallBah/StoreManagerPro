@@ -478,9 +478,9 @@
             </div>
             <div class="nav-menu">
                 <!-- <button class="nav-item" id="nav-dashboard">Tableau de Bord</button> -->
-                <button class="nav-item" id="nav-pos">Ventes / POS</button>
-                <!-- <button class="nav-item" id="nav-dettes">Gestion Dettes</button>
-                <button class="nav-item" id="nav-supplies">Approvisionnements</button>
+                <a href="http://localhost:8000/pos" style="text-decoration: none;" class="nav-item" id="nav-pos">Ventes / POS</a>
+                <a href="http://localhost:8000/dette" style="text-decoration: none;" class="nav-item" id="nav-dettes">Gestion Dettes</a>
+                <!--<button class="nav-item" id="nav-supplies">Approvisionnements</button>
                 <button class="nav-item" id="nav-catalog">Produits & Tiers</button> -->
             </div>
 
@@ -493,7 +493,7 @@
             </div>
         </div>
 
-        <?= $content ?? '' ?>
+        <?= $content ?? 'dd' ?>
 
     </div>
 

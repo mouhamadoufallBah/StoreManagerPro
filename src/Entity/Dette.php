@@ -9,15 +9,15 @@ class Dette
     private float $resteAPayer;
     private string $dateEcheance;
     private bool $estSoldee;
-    private ?int $clientId;
+    private ?int $venteId;
 
-    public function __construct(float $montantInitial, float $resteAPayer, string $dateEcheance, bool $estSoldee = false, ?int $clientId = null, ?int $id = null)
+    public function __construct(float $montantInitial, float $resteAPayer, string $dateEcheance, bool $estSoldee = false, ?int $venteId = null, ?int $id = null)
     {
         $this->montantInitial = $montantInitial;
         $this->resteAPayer = $resteAPayer;
         $this->dateEcheance = $dateEcheance;
         $this->estSoldee = $estSoldee;
-        $this->clientId = $clientId;
+        $this->venteId = $venteId;
         $this->id = $id;
     }
 
@@ -46,9 +46,9 @@ class Dette
         return $this->estSoldee;
     }
 
-    public function getClientId(): ?int
+    public function getVenteId(): ?int
     {
-        return $this->clientId;
+        return $this->venteId;
     }
 
     public function setId(?int $id): void
@@ -76,8 +76,8 @@ class Dette
         $this->estSoldee = $estSoldee;
     }
 
-    public function setClientId(?int $clientId): void
+    public function setVenteId(?int $venteId): void
     {
-        $this->clientId = $clientId;
+        $this->venteId = $venteId;
     }
 }

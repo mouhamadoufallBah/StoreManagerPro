@@ -85,7 +85,7 @@ Utilisateur "1" -- "*" Approvisionnement
 Utilisateur "1" -- "*" Client
 Utilisateur "1" -- "*" Fournisseur
 Client "1" -- "*" Vente
-Client "1" -- "*" Dette
+Vente "1" -- "0" Dette
 Vente "1" -- "*" LigneVente
 Produit "1" -- "*" LigneVente
 Dette "1" -- "*" PaiementDette
