@@ -123,4 +123,36 @@ class DetteRepository extends BaseRepository
             throw $e;
         }
     }
+
+    public function getStats(): array
+    {
+        $sql = "
+            WITH creances AS (
+                SELECT COALESCE(SUM(resteapayer), 0) AS creances_actives 
+                FROM dette 
+                WHERE estsoldee = FALSE
+            ),
+            clients_deb AS (
+                SELECT COUNT(DISTINCT c.id) AS clients_debiteurs 
+                FROM client c 
+                WHERE c.encourstotal > 0
+            ),
+            recouvrements AS (
+                SELECT COALESCE(SUM(montantpaye), 0) AS total_recouvrements 
+                FROM paiementdette
+            )
+            SELECT * FROM creances, clients_deb, recouvrements;
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result ? $result : [
+            'creances_actives' => 0,
+            'clients_debiteurs' => 0,
+            'total_recouvrements' => 0
+        ];
+    }
 }

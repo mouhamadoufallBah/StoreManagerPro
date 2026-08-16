@@ -474,10 +474,10 @@
             <div class="nav-logo">
                 <span>📦</span> StoreManager Pro
             </div>
-            <div class="nav-menu">
+<div class="nav-menu">
                 <?php
 
-use StoreManagerPro\Src\Core\SessionManager;
+                use StoreManagerPro\Src\Core\SessionManager;
 
                 $roleId = $_SESSION['userConnected']['role_id'];
                 ?>
@@ -488,20 +488,21 @@ use StoreManagerPro\Src\Core\SessionManager;
 
                 <?php if ($roleId == 1 || $roleId == 2): ?>
                     <a href="http://localhost:8000/pos" style="text-decoration: none;" class="nav-item" id="nav-pos">Ventes / POS</a>
+                    <a href="http://localhost:8000/dette" class="nav-item" id="nav-debts" style="text-decoration: none;">Gestion des Dettes</a>
                     <a href="http://localhost:8000/approvisionnement" style="text-decoration: none;" class="nav-item" id="nav-supplies">Approvisionnements</a>
                 <?php endif; ?>
 
                 <?php if ($roleId == 1 || $roleId == 3): ?>
                     <a href="http://localhost:8000/tiers" class="nav-item" id="nav-catalog" style="text-decoration: none;">Produits & Tiers</a>
                 <?php endif; ?>
-            </div>
 
+            </div>
             <div style="margin-left: auto; display: flex; align-items: center; gap: 14px;">
                 <div style="text-align: right;">
                     <div id="current-user-role" style="font-size: 12px; font-weight: 800; color: var(--accent);"><?= SessionManager::currentUser() ?></div>
                     <div style="font-size: 10px; color: var(--text-muted);">Session active</div>
                 </div>
-                <a href="http://localhost:8000/logout"  class="btn-quick-action" style="border-color: var(--danger); color: var(--danger); background: rgba(248, 113, 113, 0.08); padding: 8px 12px; text-decoration: none;">Déconnexion 🚪</a>
+                <a href="http://localhost:8000/logout" class="btn-quick-action" style="border-color: var(--danger); color: var(--danger); background: rgba(248, 113, 113, 0.08); padding: 8px 12px; text-decoration: none;">Déconnexion 🚪</a>
             </div>
         </div>
 

@@ -1,28 +1,30 @@
 <?php
 $data = $data ?? [];
 $dettes = $data['dettes'];
+$stats = $data['stats'];
 ?>
 <div>
+    <!-- Debts Stats Grid -->
     <!-- Debts Stats Grid -->
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;">
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--danger);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Créances Actives</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">99 000 F</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= $stats['creances_actives'] ?? 0 ?> F</div>
             </div>
             <span style="font-size: 24px;">💸</span>
         </div>
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--warning);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Clients Débiteurs</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">3 clients</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= $stats['clients_debiteurs'] ?? 0 ?> clients</div>
             </div>
             <span style="font-size: 24px;">👥</span>
         </div>
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--success);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Recouvrements</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">34 000 F</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= $stats['total_recouvrements'] ?? 0 ?> F</div>
             </div>
             <span style="font-size: 24px;">📈</span>
         </div>
@@ -150,7 +152,7 @@ $dettes = $data['dettes'];
                                                         <tr>
                                                             <td><?= $prod['libelle'] ?></td>
                                                             <td><?= $prod['quantite'] ?></td>
-                                                            <td><?= $prod['prixUnitaire']?> F</td>
+                                                            <td><?= $prod['prixUnitaire'] ?> F</td>
                                                             <td style="font-weight: 700; color: var(--accent);"><?= $sousTotal ?> F</td>
                                                         </tr>
                                                     <?php endforeach; ?>

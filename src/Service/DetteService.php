@@ -16,7 +16,10 @@ class DetteService
 
     public function listerDettesAvecDetails(): array
     {
-        return $this->detteRepository->findAllDetteWithDetail();
+        return [
+            'dettes' => $this->detteRepository->findAllDetteWithDetail(),
+            'stats' => $this->detteRepository->getStats()
+        ];
     }
 
     public function effectuerPaiement(int $detteId, float $montantPaye, string $methodePaiement): void

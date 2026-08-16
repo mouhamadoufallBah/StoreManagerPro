@@ -20,14 +20,14 @@ $stats = $data["stats"];
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--danger);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Encours Client Total</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= number_format($stats['encours_client_total'] ?? 0, 0, ',', ' ') ?> F</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= $stats['encours_client_total'] ?> F</div>
             </div>
             <span style="font-size: 24px;">🛑</span>
         </div>
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--accent);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Commandes Enregistrées</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= htmlspecialchars($stats['commandes_enregistrees'] ?? 0) ?> ventes</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= $stats['commandes_enregistrees'] ?? 0 ?> ventes</div>
             </div>
             <span style="font-size: 24px;">📊</span>
         </div>

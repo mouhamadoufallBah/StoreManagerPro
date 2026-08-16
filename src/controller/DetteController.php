@@ -21,7 +21,8 @@ class DetteController
         $dettes = $this->detteService->listerDettesAvecDetails();
 
         View::render('dette/index', [
-            'dettes' => $dettes
+            'dettes' => $dettes["dettes"],
+            'stats' => $dettes["stats"],
         ]);
     }
 
