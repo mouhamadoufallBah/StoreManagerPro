@@ -17,10 +17,6 @@ class Router
                 'controller' => 'StoreManagerPro\Src\controller\DashboardController',
                 'action' => 'index'
             ],
-            '/tiers' => [
-                'controller' => 'StoreManagerPro\Src\controller\TierController',
-                'action' => 'index'
-            ],
             '/pos' => [
                 'controller' => 'StoreManagerPro\Src\controller\PosController',
                 'action' => 'index'
@@ -52,6 +48,22 @@ class Router
             '/approvisionnement/reception' => [
                 'controller' => 'StoreManagerPro\Src\controller\ApprovisionnementController',
                 'action' => 'reception'
+            ],
+            '/tiers' => [
+                'controller' => 'StoreManagerPro\Src\controller\TierController',
+                'action' => 'index'
+            ],
+            '/tiers/addProduit' => [
+                'controller' => 'StoreManagerPro\Src\controller\TierController',
+                'action' => 'onAddProduit'
+            ],
+            '/tiers/addClient' => [
+                'controller' => 'StoreManagerPro\Src\controller\TierController',
+                'action' => 'onAddClient'
+            ],
+            '/tiers/addFournisseur' => [
+                'controller' => 'StoreManagerPro\Src\controller\TierController',
+                'action' => 'onAddFournisseur'
             ],
             '/logout' => [
                 'controller' => 'StoreManagerPro\Src\controller\AuthController',

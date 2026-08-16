@@ -7,10 +7,10 @@ use StoreManagerPro\Src\Core\Database;
 
 class BaseRepository
 {
-    protected string $tableName;
+    protected ?string $tableName;
     protected PDO $db;
 
-    public function __construct(string $tableName)
+    public function __construct(?string $tableName = null)
     {
         $this->tableName = $tableName;
         $this->db = Database::getInstance();

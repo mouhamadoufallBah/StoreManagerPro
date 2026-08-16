@@ -69,7 +69,7 @@ class Produit
         $this->seuilAlerteRupture = $seuilAlerteRupture;
     }
 
-    public function etatStockEnCouleur(): string
+    public function etatStockIcone(): string
     {
         $etat = "";
         if ($this->stockActuel < 1) {
@@ -85,13 +85,29 @@ class Produit
         return $etat;
     }
 
-    public function getproduitInfo(): string{
-        return "{$this->etatStockEnCouleur()} {$this->libelle} ({$this->stockActuel})" ;
+    public function etatStockEnCouleur(): string
+    {
+        $etat = "";
+        if ($this->stockActuel < 1) {
+            $etat = "--danger";
+        } else {
+            if ($this->stockActuel <= $this->seuilAlerteRupture) {
+                $etat = "--warning";
+            } else {
+                $etat = "--success";
+            }
+        }
+
+        return $etat;
     }
 
-    public function getproduitInfoForCart(): string{
-        return "{$this->id}-{$this->libelle}-{$this->stockActuel}-{$this->prixUnitaire}" ;
+    public function getproduitInfo(): string
+    {
+        return "{$this->etatStockIcone()} {$this->libelle} ({$this->stockActuel})";
     }
 
-
+    public function getproduitInfoForCart(): string
+    {
+        return "{$this->id}-{$this->libelle}-{$this->stockActuel}-{$this->prixUnitaire}";
+    }
 }

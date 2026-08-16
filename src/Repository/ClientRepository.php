@@ -21,8 +21,8 @@ class ClientRepository extends BaseRepository
                 $client["nom"],
                 $client["telephone"],
                 $client["adresse"],
-                (float)$client["encoursTotal"],
-                (float)$client["limiteCredit"],
+                (float)$client["encourstotal"],
+                (float)$client["limitecredit"],
                 (int)$client["id"]
             );
         }

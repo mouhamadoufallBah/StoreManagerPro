@@ -20,6 +20,7 @@ class FournisseurRepository extends BaseRepository
             $fournisseurs[] = new Fournisseur(
                 $fournisseur["nom"],
                 $fournisseur["telephone"],
+                $fournisseur["adresse"],
                 (float)$fournisseur["soldeCompte"],
                 (int)$fournisseur["id"]
             );

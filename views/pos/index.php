@@ -189,9 +189,9 @@ $ventes = $data["ventes"];
                                                     <?php foreach ($vente['lignes'] as $ligne): ?>
                                                         <?php $sousTotal = $ligne['quantite'] * $ligne['prixunitaire']; ?>
                                                         <tr>
-                                                            <td><?= htmlspecialchars($ligne['libelle']) ?></td>
+                                                            <td><?= $ligne['libelle'] ?></td>
                                                             <td><?= $ligne['quantite'] ?></td>
-                                                            <td><?= number_format($ligne['prixunitaire'], 0, ',', ' ') ?> F</td>
+                                                            <td><?= $ligne['prixunitaire'] ?> F</td>
                                                             <td style="font-weight: 700; color: var(--accent);"><?= $sousTotal  ?> F</td>
                                                         </tr>
                                                     <?php endforeach; ?>
