@@ -4,22 +4,38 @@ namespace StoreManagerPro\Src\Service;
 
 use StoreManagerPro\Src\Core\SessionManager;
 use StoreManagerPro\Src\Repository\VenteRepository;
+use StoreManagerPro\Src\Repository\ClientRepository;
+use StoreManagerPro\Src\Repository\ProduitRepository;
 use Exception;
 
 class VenteService
 {
     private const PANIER = "panier";
     private SessionManager $session;
-    private VenteRepository $repository;
+    private VenteRepository $venteRepository;
 
-    public function __construct(VenteRepository $repository)
+    public function __construct(VenteRepository $venteRepository)
     {
-        $this->repository = $repository;
+        $this->venteRepository = $venteRepository;
         $this->session = SessionManager::getInstance();
 
         if (!$this->session->hasKey(self::PANIER)) {
             $this->session->saveData(self::PANIER, []);
         }
+    }
+
+    public function getDataForPosPage(): array
+    {
+        $clientRepo = new ClientRepository();
+        $produitRepo = new ProduitRepository();
+
+        return [
+            "produits" => $produitRepo->findAllProduits(),
+            "clients" => $clientRepo->findAllClient(),
+            "cart" => $this->getCart(),
+            "ventes" => $this->venteRepository->findAllVenteAndLigne(),
+            "stats" => $this->venteRepository->getStats(),
+        ];
     }
 
     public function addToCart(array $data): void
@@ -92,7 +108,7 @@ class VenteService
         }
 
         try {
-            $venteId = $this->repository->saveVente(
+            $venteId = $this->venteRepository->saveVente(
                 $userId,
                 $clientId,
                 $montantTotal,

@@ -4,6 +4,7 @@ $clients = $data["clients"] ?? [];
 $produits = $data["produits"] ?? [];
 $cart = $data["cart"];
 $ventes = $data["ventes"];
+$stats = $data["stats"];
 
 ?>
 <div>
@@ -12,21 +13,21 @@ $ventes = $data["ventes"];
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--success);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">CA Encaissé Net</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">92 000 F</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= number_format($stats['ca_encaisse_net'] ?? 0, 0, ',', ' ') ?> F</div>
             </div>
             <span style="font-size: 24px;">💰</span>
         </div>
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--danger);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Encours Client Total</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">99 000 F</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= number_format($stats['encours_client_total'] ?? 0, 0, ',', ' ') ?> F</div>
             </div>
             <span style="font-size: 24px;">🛑</span>
         </div>
         <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--accent);">
             <div>
                 <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Commandes Enregistrées</span>
-                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">4 ventes</div>
+                <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= htmlspecialchars($stats['commandes_enregistrees'] ?? 0) ?> ventes</div>
             </div>
             <span style="font-size: 24px;">📊</span>
         </div>
@@ -156,14 +157,14 @@ $ventes = $data["ventes"];
                     <?php else: ?>
                         <?php foreach ($ventes as $vente): ?>
                             <?php
-                            $uniqueId = $vente['id'];?>
+                            $uniqueId = $vente['id']; ?>
                             <tr>
                                 <td style="font-weight: 700; color: var(--text-muted);">#CMD-<?= $uniqueId ?></td>
                                 <td style="font-weight: 700;">
                                     <?= $vente['prenom'] . ' ' . $vente['nom'] ?>
                                     <div style="font-size:11px; color:var(--text-muted); font-weight:normal;">Tél : <?= $vente['telephone'] ?></div>
                                 </td>
-                                <td style="font-weight: 800; color: var(--accent);"><?= $vente['montanttotal']?> F</td>
+                                <td style="font-weight: 800; color: var(--accent);"><?= $vente['montanttotal'] ?> F</td>
                                 <td>
                                     <span class="badge"><?= $vente['statutPaiement'] . $vente['typepaiement'] ?></span>
                                 </td>

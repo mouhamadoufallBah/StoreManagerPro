@@ -23,7 +23,7 @@ class VenteRepository extends BaseRepository
             }
             $encoursActuel = (float)$client['encourstotal'];
             $limiteCredit = (float)$client['limitecredit'];
-            
+
             $statutPaiement = ($montantEncaisse >= $montantTotal) ? 'Payé' : 'Partiel';
             $resteAPayer = 0.00;
 
@@ -90,5 +90,35 @@ class VenteRepository extends BaseRepository
         }
 
         return $resultat;
+    }
+
+    public function getStats(): array
+    {
+        $sql = "
+            WITH ca_encaisse AS (
+                SELECT COALESCE(SUM(montantpaye), 0) AS ca_encaisse_net 
+                FROM paiementdette
+            ),
+            encours_clients AS (
+                SELECT COALESCE(SUM(encourstotal), 0) AS encours_client_total 
+                FROM client
+            ),
+            total_ventes AS (
+                SELECT COUNT(*) AS commandes_enregistrees 
+                FROM vente
+            )
+            SELECT * FROM ca_encaisse, encours_clients, total_ventes;
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result ? $result : [
+            'ca_encaisse_net' => 0,
+            'encours_client_total' => 0,
+            'commandes_enregistrees' => 0
+        ];
     }
 }

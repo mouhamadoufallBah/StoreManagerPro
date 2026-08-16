@@ -3,40 +3,27 @@
 namespace StoreManagerPro\Src\controller;
 
 use StoreManagerPro\Src\Core\View;
-use StoreManagerPro\Src\Repository\ClientRepository;
-use StoreManagerPro\Src\Repository\ProduitRepository;
 use StoreManagerPro\Src\Repository\VenteRepository;
 use StoreManagerPro\Src\Service\VenteService;
 
 class PosController
 {
+    private VenteService $venteService;
+
+    public function __construct()
+    {
+        $venteRepository = new VenteRepository();
+        $this->venteService = new VenteService($venteRepository);
+    }
 
     public function index()
     {
-        $clientRepo = new ClientRepository();
-        $produitRepo = new ProduitRepository();
-        $venteRepo = new VenteRepository();
-        $venteService = new VenteService($venteRepo);
-
-        $clients = $clientRepo->findAllClient();
-        $produits = $produitRepo->findAllProduits();
-        $cart = $venteService->getCart();
-        $ventes = $venteRepo->findAllVenteAndLigne();
-        // var_dump($ventes);die;
-        $data = [
-            "produits" => $produits,
-            "clients" => $clients,
-            "cart" => $cart,
-            "ventes" => $ventes
-        ];
+        $data = $this->venteService->getDataForPosPage();
         View::render("pos/index", $data);
     }
 
     public function addToCart()
     {
-        $venteRepo = new VenteRepository();
-        $venteService = new VenteService($venteRepo);
-
         $produit = explode("-", $_POST["produit"]);
        
         $data = [
@@ -49,32 +36,25 @@ class PosController
             "qte" => $_POST["qte"]
         ];
 
-        $venteService->addToCart($data);
+        $this->venteService->addToCart($data);
         header("Location: /pos");
         exit;
     }
-
 
     public function removeToCart()
     {
-        $venteRepo = new VenteRepository();
-        $venteService = new VenteService($venteRepo);
-
-        $venteService->removeToCart((int)$_GET["id"]);
+        $this->venteService->removeToCart((int)$_GET["id"]);
         header("Location: /pos");
         exit;
     }
 
-
     public function addVente()
     {
-        $clientId = (int)$_POST['client_id'] ?? null;
-        $modeReglement = $_POST['mode_reglement'] ?? null;
-        $montantVerse = (float)$_POST['montant_verse'] ?? 0;
+        $clientId = (int)($_POST['client_id'] ?? 0);
+        $modeReglement = $_POST['mode_reglement'] ?? '';
+        $montantVerse = (float)($_POST['montant_verse'] ?? 0);
 
-        $venteRepo = new VenteRepository();
-        $venteService = new VenteService($venteRepo);
-        $venteService->enregistrerVente(1, $clientId, $montantVerse, $modeReglement);
+        $this->venteService->enregistrerVente(1, $clientId, $montantVerse, $modeReglement);
 
         header('Location: /pos');
         exit;
