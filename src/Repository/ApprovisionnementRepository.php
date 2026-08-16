@@ -1,6 +1,7 @@
 <?php
 
 namespace StoreManagerPro\Src\Repository;
+
 use PDO;
 
 class ApprovisionnementRepository extends BaseRepository
@@ -77,6 +78,36 @@ class ApprovisionnementRepository extends BaseRepository
         return $approvisionnements;
     }
 
+    public function getStats(): array
+    {
+        $sql = "
+            WITH cout_total AS (
+                SELECT COALESCE(SUM(couttotal), 0) AS cout_total_entrees 
+                FROM approvisionnement
+            ),
+            total_bl AS (
+                SELECT COUNT(*) AS bons_reception 
+                FROM approvisionnement
+            ),
+            fournisseurs_actifs AS (
+                SELECT COUNT(*) AS fournisseurs_actifs 
+                FROM fournisseur
+            )
+            SELECT * FROM cout_total, total_bl, fournisseurs_actifs;
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result ? $result : [
+            'cout_total_entrees' => 0,
+            'bons_reception' => 0,
+            'fournisseurs_actifs' => 0
+        ];
+    }
+
     public function saveReception(int $approvisionnementId, array $quantitesRecues): bool
     {
         try {
@@ -85,7 +116,7 @@ class ApprovisionnementRepository extends BaseRepository
             $sqlLine = "UPDATE ligneapprovisionnement 
                         SET quantiterecu = :quantiteRecu 
                         WHERE approvisionnement_id = :approId AND produit_id = :produitId";
-            
+
             $stmtLine = $this->db->prepare($sqlLine);
 
             $sqlStock = "UPDATE produit 

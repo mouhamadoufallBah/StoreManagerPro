@@ -18,10 +18,11 @@ class ApprovisionnementController
 
     public function index()
     {
-        $approvisionnements = $this->approvisionnementService->getApprovisionnementsWithDetails();
+        $data = $this->approvisionnementService->getApprovisionnementsWithDetails();
 
         View::render('approvisionnement/index', [
-            'approvisionnements' => $approvisionnements
+            'approvisionnements' => $data['approvisionnements'],
+            'stats' => $data['stats']
         ]);
     }
 

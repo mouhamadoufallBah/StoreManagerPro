@@ -1,28 +1,28 @@
- <?php 
- $data = $data ?? [];
- $approvisionnements = $data["approvisionnements"];
- ?>
+ <?php
+    $data = $data ?? [];
+    $approvisionnements = $data["approvisionnements"];
+    ?>
  <div>
      <!-- Supplies Stats Grid -->
      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;">
          <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--accent);">
              <div>
                  <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Coût Total des Entrées</span>
-                 <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">4 520 000 F</div>
+                 <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= number_format($stats['cout_total_entrees'] ?? 0, 0, ',', ' ') ?> F</div>
              </div>
              <span style="font-size: 24px;">📥</span>
          </div>
          <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--warning);">
              <div>
                  <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Bons de Réception (BL)</span>
-                 <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">2 BL reçus</div>
+                 <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= htmlspecialchars($stats['bons_reception'] ?? 0) ?> BL reçus</div>
              </div>
              <span style="font-size: 24px;">📄</span>
          </div>
          <div class="panel-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--success);">
              <div>
                  <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Fournisseurs Actifs</span>
-                 <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;">3 entreprises</div>
+                 <div style="font-size: 18px; font-weight: 800; color: white; margin-top: 4px;"><?= htmlspecialchars($stats['fournisseurs_actifs'] ?? 0) ?> entreprises</div>
              </div>
              <span style="font-size: 24px;">🤝</span>
          </div>
