@@ -39,3 +39,7 @@ j'ai vu aussi si la classe paarent et enfant on des methode qui se ressemble on 
 - **Heure de réalisation** : 09h00 - 11h30
 - **Ce qui a été fait** : Ajout du service de remboursement partiel et mise a jour des statuts SOLDEE
 - **Difficultés / Obstacles** : Le probleme rencontrer ici est le fait de me rendre compte mon diagramme de classe ne pouvais pas resoudre les besoins de l'interface. J'ai du faire un retour en arriere corriger le diagramme les entite etc. Apart ca aussi la logique qui m'as permis de reorganiser la la liste des dette en imbriquant les produits et paiements concerne m'as pris un peut de temps car je voulais faire une seul requette de jointure qui ammene tout les information puis faire le groupage au niveau du repository.
+
+- **Heure de réalisation** : 11h30 - 13h30
+- **Ce qui a été fait** : Ajout de la reception de bons de livraison et incrementation automatique du stock
+- **Difficultés / Obstacles** : RAS

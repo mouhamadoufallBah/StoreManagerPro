@@ -5,7 +5,6 @@ namespace StoreManagerPro\Src\controller;
 use StoreManagerPro\Src\Core\View;
 use StoreManagerPro\Src\Repository\DetteRepository;
 use StoreManagerPro\Src\Service\DetteService;
-use Exception;
 
 class DetteController
 {

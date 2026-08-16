@@ -76,6 +76,7 @@ class Approvisionnement {
 class LigneApprovisionnement {
     + id: Int
     + quantiteCommandee: Integer
+    + quantiteRecue: Integer
     + prixAchatUnitaire: Float
 }
 

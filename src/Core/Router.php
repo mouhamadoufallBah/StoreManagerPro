@@ -33,6 +33,14 @@ class Router
                 'controller' => 'StoreManagerPro\Src\controller\DetteController',
                 'action' => 'remboursement'
             ],
+            '/approvisionnement' => [
+                'controller' => 'StoreManagerPro\Src\controller\ApprovisionnementController',
+                'action' => 'index'
+            ],
+            '/approvisionnement/reception' => [
+                'controller' => 'StoreManagerPro\Src\controller\ApprovisionnementController',
+                'action' => 'reception'
+            ],
 
         ];
     }
