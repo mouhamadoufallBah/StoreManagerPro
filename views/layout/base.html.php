@@ -474,7 +474,7 @@
             <div class="nav-logo">
                 <span>📦</span> StoreManager Pro
             </div>
-<div class="nav-menu">
+            <div class="nav-menu">
                 <?php
 
                 use StoreManagerPro\Src\Core\SessionManager;

@@ -11,16 +11,16 @@ use Exception;
 class VenteService
 {
     private const PANIER = "panier";
-    private SessionManager $session;
+    // private SessionManager $session;
     private VenteRepository $venteRepository;
 
     public function __construct(VenteRepository $venteRepository)
     {
         $this->venteRepository = $venteRepository;
-        $this->session = SessionManager::getInstance();
+        // $this->session = SessionManager::getInstance();
 
-        if (!$this->session->hasKey(self::PANIER)) {
-            $this->session->saveData(self::PANIER, []);
+        if (!SessionManager::hasKey(self::PANIER)) {
+            SessionManager::saveData(self::PANIER, []);
         }
     }
 
@@ -41,7 +41,7 @@ class VenteService
     public function addToCart(array $data): void
     {
         $key = $data['produit']['id'];
-        $panier = $this->session->getData(self::PANIER);
+        $panier = SessionManager::getData(self::PANIER);
 
         $stockActuel = $data['produit']['stockActuel'];
         $quantiteActuelPanier = isset($panier[$key]) ? $panier[$key]['qte'] : 0;
@@ -54,15 +54,15 @@ class VenteService
                 $panier[$key] = $data;
             }
 
-            $this->session->saveData(self::PANIER, $panier);
+            SessionManager::saveData(self::PANIER, $panier);
         } else {
-            $this->session->saveData('error_message', "Quantité insuffisante en stock ! (Stock dispo : $stockActuel)");
+            SessionManager::saveData('error_message', "Quantité insuffisante en stock ! (Stock dispo : $stockActuel)");
         }
     }
 
     public function getCart(): array
     {
-        $panier = $this->session->getData(self::PANIER) ?? [];
+        $panier = SessionManager::getData(self::PANIER) ?? [];
         $montantTotal = 0;
 
         foreach ($panier as $item) {
@@ -77,17 +77,17 @@ class VenteService
 
     public function removeToCart(int $produit_id): void
     {
-        $panier = $this->session->getData(self::PANIER) ?? [];
+        $panier = SessionManager::getData(self::PANIER) ?? [];
 
         if (isset($panier[$produit_id])) {
             unset($panier[$produit_id]);
-            $this->session->saveData(self::PANIER, $panier);
+            SessionManager::saveData(self::PANIER, $panier);
         }
     }
 
     public function viderCart(): void
     {
-        $this->session->saveData(self::PANIER, []);
+        SessionManager::saveData(self::PANIER, []);
     }
 
     public function enregistrerVente(int $userId, int $clientId, float $montantEncaisse, string $typePaiement): ?int
@@ -98,12 +98,12 @@ class VenteService
 
 
         if (empty($panier)) {
-            $this->session->saveData('error_message', "Impossible de valider une vente avec un panier vide.");
+            SessionManager::saveData('error_message', "Impossible de valider une vente avec un panier vide.");
             return null;
         }
 
         if ($montantEncaisse < 0) {
-            $this->session->saveData('error_message', "Le montant encaissé ne peut pas être négatif.");
+            SessionManager::saveData('error_message', "Le montant encaissé ne peut pas être négatif.");
             return null;
         }
 
@@ -118,12 +118,11 @@ class VenteService
             );
 
             $this->viderCart();
-            $this->session->saveData('success_message', "Vente validée avec succès !");
+            SessionManager::saveData('success_message', "Vente validée avec succès !");
 
             return $venteId;
         } catch (Exception $e) {
-            die($e->getMessage());
-            $this->session->saveData('error_message', "Erreur lors de la validation de la vente : " . $e->getMessage());
+            SessionManager::saveData('error_message', "Erreur lors de la validation de la vente : " . $e->getMessage());
             return null;
         }
     }

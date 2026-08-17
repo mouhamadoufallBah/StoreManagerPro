@@ -47,3 +47,35 @@ j'ai vu aussi si la classe paarent et enfant on des methode qui se ressemble on 
 - **Heure de réalisation** : 14h30 - 16h30
 - **Ce qui a été fait** : Implementation de l'authentification multi-profils et restriction des acces par role
 - **Difficultés / Obstacles** : J'ai eu un peu de mal a trouve une logique de restriction sans autant casse la classe Router.
+
+# 2. Autopsie de 3 Méthodes Clés (Indispensable pour l'oral)
+
+### Méthode 1 : `findAllDetteWithDetail()`
+- **Fichier** : `src/Repository/DetteRepository.php`
+- **Rôle** : Cette  permet dabord de recuperer l'ensemble des ligne de vente associer a une dette et ses paiement ensuite faire le groupage par dette puis d'y mettre les infromation lier a cette dette
+- **Explication ligne par ligne** : 
+    - De ligne 15  a 23: ecriture du requette qui permet de recuperer les ligne vente qui sont lier a une dette et ses paiement puis on a executer la requette et recuperer le resultat.
+    - A partir de la ligne 28 on a initialiser notre tableau de dette qu'on va retourner puis enchainer avec le parcour du resultat de notre requette a chaque tour de boucle on recuper l'id du dette et on verifie ce dernier  n'existe pas dans notre tableau assocatif de dette.
+    - De la Ligne 33 a 47 on creer on element dans notre tableau dettes avec comme index l'id du dette puis on l'initialise avec les valeur de chaque colonne du dette et la creation de deux tableau paiement et produit on on stockera plus tard les paiement lier a cette dette et les produit du vente concerner.
+    - De la ligne 50 a 57 on recuperer l'id du produit et on cherche son existant dans notre tableaux de produit qui se trouve dans dette si on le trouve pas on cree une nouvelle element avec comme index l'id du produit et on initialise les valeur du produit
+    - De la ligne 59 a 69 on a fait la meme logique que la partie produit on ici on recuperer l'id du paiement puis on le cherche dans le tableua paiements qui se trouve dans dettes 
+    - puis a la ligne 78 on retourne notre tableau de dette .
+
+### Méthode 2 : `VenteService::addToCart(array $data)`
+- **Fichier** : `src/Service/VenteService.php`
+- **Rôle** : Cette methode  permet de gerer l'ajout des produit au panier en verifiant si le stock suffisant
+- **Explication ligne par ligne** : 
+  - Ligne 43 et 44 je recuperer l'id du produit qu'on a recu dans $data et notre panier
+  - ensuite je recupere la quantite de stock de cette produit puis verifier s'il produit existe dans notre panier pour recuperer la quantite qui est dans le panier sinon l'initialiser a 0  en fin stocker on stock dans quantiteTotalPanier la somme du quantite de cette prouit qu'on a dans le panier et la quantite qu'on veut ajouter provenant du $data
+  - Ligne 50 a 60 on verifie si la total panier n'est pas superieur a la quantite de stock si c vrai on fait une autre condition pour verifer l'exitance du produit pour savoir si on doit ajouter le produit ou incrementer la quantite une fois c'est bon on appelle notre notre methode static qui se trouve dans Session manager pour modifier l'etat de notre panier. Au cas ou la quantite est insuffiasnte on ajoute pas au panier
+
+### Méthode 3 : `DetteService::effectuerPaiement(int $detteId, float $montantPaye, string $methodePaiement)`
+- **Fichier** : `src/Service/DetteService`
+- **Rôle** : Cette methode permet gerer l'ajout d'un paiement pour un dette
+- **Explication ligne par ligne** :
+  - ligne 27 a 29 on verifie que le montant saisie est positif 
+  - ligne 31 on recupere la dette a travers notre methode findByKey qui se trouve dans base repository que recupere un ou pluisieur element a traver le champs qu'on veut appliquer la recherche et la valeur de recherche
+  - ligne 33 a 39 on verifie si le dette existe et qu'il n'est pas encore solder
+  - ligne 41 on recupere le reste a paye du dette
+  - on verifie si le montant paye n'est pas superieur a la montant restante
+  - ligne 47 on envoie les donne au repoitory pour qu'il effectue l'operation  d'ajout et de mis ajour des table concerner.
