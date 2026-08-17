@@ -82,10 +82,10 @@ class Router
             exit;
         }
 
-        // if ($uri != "/auth" && !SessionManager::isConnected()) {
-        //     header("Location: http://localhost:8000/auth");
-        //     exit;
-        // }
+        if ($uri != "/auth" && !SessionManager::isConnected()) {
+            header("Location: http://localhost:8000/auth");
+            exit;
+        }
 
         $controllerClass = $this->routes[$uri]['controller'];
         $action = $this->routes[$uri]['action'];
