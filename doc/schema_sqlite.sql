@@ -1,101 +1,104 @@
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE Role (
+CREATE TABLE role (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     libelle TEXT NOT NULL
 );
 
-CREATE TABLE Utilisateur (
+CREATE TABLE utilisateur (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nom TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    motDePasse TEXT NOT NULL,
+    motdepasse TEXT NOT NULL,
     role_id INTEGER NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES Role(id)
+    CONSTRAINT fk_utilisateur_role FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
-CREATE TABLE Client (
+CREATE TABLE client (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nom TEXT NOT NULL,
     telephone TEXT,
     adresse TEXT,
-    encoursTotal REAL DEFAULT 0.0
+    encourstotal NUMERIC(12,2) DEFAULT 0.00,
+    limitecredit NUMERIC(8,2)
 );
 
-CREATE TABLE Fournisseur (
+CREATE TABLE fournisseur (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nom TEXT NOT NULL,
     telephone TEXT,
-    soldeCompte REAL DEFAULT 0.0
+    soldecompte NUMERIC(12,2) DEFAULT 0.00,
+    adresse TEXT
 );
 
-CREATE TABLE Produit (
+CREATE TABLE produit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     libelle TEXT NOT NULL,
-    prixUnitaire REAL NOT NULL,
-    stockActuel INTEGER NOT NULL DEFAULT 0,
-    seuilAlerteRupture INTEGER DEFAULT 5
+    prixunitaire NUMERIC(12,2) NOT NULL,
+    stockactuel INTEGER DEFAULT 0 NOT NULL,
+    seuilalerterupture INTEGER DEFAULT 5
 );
 
-CREATE TABLE Vente (
+CREATE TABLE approvisionnement (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    dateVente TEXT NOT NULL, -- Format ISO8601 (YYYY-MM-DD HH:MM:SS)
-    montantTotal REAL NOT NULL,
-    montantEncaisse REAL NOT NULL,
-    typePaiement TEXT NOT NULL,
-    statutPaiement TEXT NOT NULL,
-    utilisateur_id INTEGER NOT NULL,
-    client_id INTEGER NOT NULL,
-    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id),
-    FOREIGN KEY (client_id) REFERENCES Client(id)
-);
-
-CREATE TABLE LigneVente (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    quantite INTEGER NOT NULL,
-    prixUnitaire REAL NOT NULL,
-    vente_id INTEGER NOT NULL,
-    produit_id INTEGER NOT NULL,
-    FOREIGN KEY (vente_id) REFERENCES Vente(id) ON DELETE CASCADE,
-    FOREIGN KEY (produit_id) REFERENCES Produit(id)
-);
-
-CREATE TABLE Dette (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    montantInitial REAL NOT NULL,
-    resteAPayer REAL NOT NULL,
-    dateEcheance TEXT,
-    estSoldee BOOLEAN NOT NULL DEFAULT 0,
-    client_id INTEGER NOT NULL,
-    FOREIGN KEY (client_id) REFERENCES Client(id)
-);
-
-CREATE TABLE PaiementDette (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    montantPaye REAL NOT NULL,
-    datePaiement TEXT NOT NULL,
-    methodePaiement TEXT NOT NULL,
-    dette_id INTEGER NOT NULL,
-    FOREIGN KEY (dette_id) REFERENCES Dette(id) ON DELETE CASCADE
-);
-
-CREATE TABLE Approvisionnement (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    dateApprovisionnement TEXT NOT NULL,
-    coutTotal REAL NOT NULL,
-    referenceBon TEXT,
+    dateapprovisionnement DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    couttotal NUMERIC(12,2) NOT NULL,
+    referencebon TEXT,
     utilisateur_id INTEGER NOT NULL,
     fournisseur_id INTEGER NOT NULL,
-    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id),
-    FOREIGN KEY (fournisseur_id) REFERENCES Fournisseur(id)
+    CONSTRAINT fk_appro_fournisseur FOREIGN KEY (fournisseur_id) REFERENCES fournisseur(id),
+    CONSTRAINT fk_appro_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
 );
 
-CREATE TABLE LigneApprovisionnement (
+CREATE TABLE ligneapprovisionnement (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    quantiteCommandee INTEGER NOT NULL,
-    prixAchatUnitaire REAL NOT NULL,
+    quantitecommandee INTEGER NOT NULL,
+    prixachatunitaire NUMERIC(12,2) NOT NULL,
     approvisionnement_id INTEGER NOT NULL,
     produit_id INTEGER NOT NULL,
-    FOREIGN KEY (approvisionnement_id) REFERENCES Approvisionnement(id) ON DELETE CASCADE,
-    FOREIGN KEY (produit_id) REFERENCES Produit(id)
+    quantiterecu NUMERIC(8,2),
+    CONSTRAINT fk_ligneappro_appro FOREIGN KEY (approvisionnement_id) REFERENCES approvisionnement(id) ON DELETE CASCADE,
+    CONSTRAINT fk_ligneappro_produit FOREIGN KEY (produit_id) REFERENCES produit(id)
+);
+
+CREATE TABLE vente (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    datevente DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    montanttotal NUMERIC(12,2) NOT NULL,
+    montantencaisse NUMERIC(12,2) NOT NULL,
+    typepaiement TEXT NOT NULL,
+    statutpaiement TEXT NOT NULL,
+    utilisateur_id INTEGER NOT NULL,
+    client_id INTEGER NOT NULL,
+    CONSTRAINT fk_vente_client FOREIGN KEY (client_id) REFERENCES client(id),
+    CONSTRAINT fk_vente_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
+);
+
+CREATE TABLE lignevente (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    quantite INTEGER NOT NULL,
+    prixunitaire NUMERIC(12,2) NOT NULL,
+    vente_id INTEGER NOT NULL,
+    produit_id INTEGER NOT NULL,
+    CONSTRAINT fk_lignevente_produit FOREIGN KEY (produit_id) REFERENCES produit(id),
+    CONSTRAINT fk_lignevente_vente FOREIGN KEY (vente_id) REFERENCES vente(id) ON DELETE CASCADE
+);
+
+CREATE TABLE dette (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    montantinitial NUMERIC(12,2) NOT NULL,
+    resteapayer NUMERIC(12,2) NOT NULL,
+    dateecheance TEXT,
+    estsoldee BOOLEAN DEFAULT 0 NOT NULL,
+    venteid INTEGER,
+    CONSTRAINT dette_venteid_fkey FOREIGN KEY (venteid) REFERENCES vente(id)
+);
+
+CREATE TABLE paiementdette (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    montantpaye NUMERIC(12,2) NOT NULL,
+    datepaiement DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    methodepaiement TEXT NOT NULL,
+    dette_id INTEGER NOT NULL,
+    CONSTRAINT fk_paiementdette_dette FOREIGN KEY (dette_id) REFERENCES dette(id) ON DELETE CASCADE
 );
