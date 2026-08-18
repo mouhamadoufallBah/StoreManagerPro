@@ -38,7 +38,7 @@ class PaiementDette
         return $this->methodePaiement;
     }
 
-    public function getDette(): ?int
+    public function getDette(): ?Dette
     {
         return $this->dette;
     }

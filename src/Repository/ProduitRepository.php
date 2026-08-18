@@ -2,19 +2,22 @@
 
 namespace StoreManagerPro\Src\Repository;
 
+use StoreManagerPro\Src\Core\Database;
 use StoreManagerPro\Src\Entity\Produit;
 
-class ProduitRepository extends BaseRepository
+class ProduitRepository
 {
-    public function __construct()
-    {
-        parent::__construct("produit");
-    }
 
-    public function findAllProduits(): array
+    public static function findAllProduits(): array
     {
-        $results = $this->findAll();
-        // var_dump($results); die();
+        $results = Database::getAllData("produit");
+
+        // echo "<pre>";
+        // var_dump($results);
+        // echo "</pre>";
+        // die;
+
+
         $produits = [];
         foreach ($results as $produit) {
             $produits[] = new Produit(
@@ -28,9 +31,13 @@ class ProduitRepository extends BaseRepository
         return $produits;
     }
 
-    public function findProduitByLibelle(string $libelle): array
+    public static function findProduitByLibelle(string $libelle): array
     {
-        $results = $this->findByKey('libelle', $libelle);
+        $sql = "select * from produit where libelle = :libelle";
+
+        $results = Database::executeQuery($sql, [
+            "libelle" => $libelle
+        ]);
 
         $produits = [];
         foreach ($results as $produit) {
@@ -45,7 +52,7 @@ class ProduitRepository extends BaseRepository
         return $produits;
     }
 
-    public function insert(Produit $produit): bool
+    public static function insert(Produit $produit): bool
     {
         $data = [
             'libelle' => $produit->getLibelle(),
@@ -54,6 +61,9 @@ class ProduitRepository extends BaseRepository
             'seuilAlerteRupture' => $produit->getSeuilAlerteRupture()
         ];
 
-        return $this->save($data);
+        $sql = "INSERT INTO produit (libelle, prixUnitaire, stockActuel, seuilAlerteRupture) VALUES (:libelle, :prixUnitaire, :stockActuel, :seuilAlerteRupture)";
+        $latId = Database::executeUpdate($sql, $data);
+
+        return $latId;
     }
 }

@@ -4,7 +4,7 @@ namespace StoreManagerPro\Src\Entity;
 
 class Produit
 {
-    private ?int $id;
+    private ?int $id = null;
     private string $libelle;
     private float $prixUnitaire;
     private int $stockActuel;

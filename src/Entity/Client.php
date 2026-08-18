@@ -11,15 +11,8 @@ class Client
     private float $encoursTotal;
     private float $limiteCredit;
 
-    public function __construct(string $nom, string $telephone, string $adresse, float $encoursTotal = 0.0, float $limiteCredit = 0.0, ?int $id = null)
-    {
-        $this->nom = $nom;
-        $this->telephone = $telephone;
-        $this->adresse = $adresse;
-        $this->encoursTotal = $encoursTotal;
-        $this->limiteCredit = $limiteCredit;
-        $this->id = $id;
-    }
+    public function __construct()
+    {}
 
     public function getId(): ?int
     {

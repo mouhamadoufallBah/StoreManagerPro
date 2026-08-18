@@ -3,20 +3,21 @@
 namespace StoreManagerPro\Src\Repository;
 
 use Exception;
+use StoreManagerPro\Src\Core\Database;
 
-class VenteRepository extends BaseRepository
+class VenteRepository
 {
-    public function __construct()
-    {
-        parent::__construct('vente');
-    }
 
-    public function saveVente(int $userId, int $clientId, float $montantTotal, float $montantEncaisse, string $typePaiement, array $panier): int
+    public function __construct() {}
+
+    public static function saveVente(int $userId, int $clientId, float $montantTotal, float $montantEncaisse, string $typePaiement, array $panier): int
     {
-        $this->db->beginTransaction();
+        Database::getInstance()->beginTransaction();
 
         try {
-            $client = $this->findByKey("id", $clientId, "client", true);
+            $sql = "SELECT * FROM vente WHERE clientId = :clientId";
+
+            $client = Database::executeQuery($sql, ["clientId" => $clientId]);
 
             if (!$client) {
                 throw new Exception('Client introuvable.');
@@ -34,56 +35,87 @@ class VenteRepository extends BaseRepository
                 }
             }
 
-            $stmt = $this->db->prepare("INSERT INTO vente (montantTotal, montantEncaisse, typePaiement, statutPaiement, utilisateur_id, client_id) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$montantTotal, $montantEncaisse, $typePaiement, $statutPaiement, $userId, $clientId]);
-            $venteId = (int)$this->db->lastInsertId();
+            $sql = "INSERT INTO vente (montantTotal, montantEncaisse, typePaiement, statutPaiement, utilisateur_id, client_id) VALUES (:montantTotal, :montantEncaisse, :typePaiement, :statutPaiement, :utilisateur_id, :client_id)";
+            $venteId = Database::executeUpdate($sql, [
+                "montantTotal" => $montantTotal,
+                "montantEncaisse" => $montantEncaisse,
+                "typePaiement" => $typePaiement,
+                "statutPaiement" => $statutPaiement,
+                "utilisateur_id" => $userId,
+                "client_id" => $clientId
+            ]);
 
-            $stmtLigne = $this->db->prepare("INSERT INTO lignevente (quantite, prixUnitaire, vente_id, produit_id) VALUES (?, ?, ?, ?)");
-            $stmtStock = $this->db->prepare("UPDATE produit SET stockActuel = stockActuel - ? WHERE id = ?");
+            $sqlLigne = "INSERT INTO lignevente (quantite, prixUnitaire, vente_id, produit_id) VALUES (:quantite, :prixUnitaire, :vente_id, :produit_id)";
+
+            $sqlProduit = "UPDATE produit SET stockActuel = stockActuel - :qte WHERE id = :id";
 
             foreach ($panier as $item) {
-                $stmtLigne->execute([$item['qte'], $item['produit']['prixUnitaire'], $venteId, $item['produit']['id']]);
-                $stmtStock->execute([$item['qte'], $item['produit']['id']]);
+                $ligneId = Database::executeUpdate($sqlLigne, [
+                    "quantite" => $item['qte'],
+                    "prixUnitaire" => $item['produit']['prixUnitaire'],
+                    "vente_id" => $venteId,
+                    "produit_id" => $item['produit']['id']
+                ]);
+
+                if ($ligneId == 0) {
+                    throw new Exception("Erreur lors de l'ajour dans la table ligne vente");
+                }
+
+                $ligneAffecte = Database::executeUpdate($sqlProduit, [
+                    "qte" => $item['qte'],
+                    "id" => $item['produit']['id']
+                ]);
+
+                if ($ligneAffecte == 0) {
+                    throw new Exception("Erreur lors de la mis a jour dans la table produit");
+                }
             }
 
             if ($statutPaiement === 'Partiel') {
-                $stmtDette = $this->db->prepare("INSERT INTO dette (montantInitial, resteAPayer, estSoldee, venteId) VALUES (?, ?, FALSE, ?)");
-                $stmtDette->execute([$resteAPayer, $resteAPayer, $venteId]);
+                $sqlDette = "INSERT INTO dette (montantInitial, resteAPayer, estSoldee, venteId) VALUES (:montantInitial, :resteAPayer, FALSE, :venteId)";
+                $detteId = Database::executeUpdate($sqlDette, [
+                    "montantInitial" => $resteAPayer,
+                    "resteAPayer" => $resteAPayer,
+                    "venteId" => $venteId
+                ]);
 
-                $stmtClientUpdate = $this->db->prepare("UPDATE client SET encoursTotal = encoursTotal + ? WHERE id = ?");
-                $stmtClientUpdate->execute([$resteAPayer, $clientId]);
+                if ($detteId == 0) {
+                    throw new Exception("Erreur lors de l'ajout dans la table dette");
+                }
+
+                $sqlClient = "UPDATE client SET encoursTotal = encoursTotal + :resteAPayer WHERE id = :id";
+                $ligneAffecte = Database::executeUpdate($sqlClient, [
+                    "resteAPayer" => $resteAPayer,
+                    "id" =>  $clientId
+                ]);
+
+                 if ($ligneAffecte == 0) {
+                    throw new Exception("Erreur lors de la mis a jour dans la table client");
+                }
             }
 
-            $this->db->commit();
+            Database::getInstance()->commit();
             return $venteId;
         } catch (Exception $e) {
-            $this->db->rollBack();
+            Database::getInstance()->rollBack();
             throw $e;
         }
     }
 
-    public function findAllVenteAndLigne(): array
+    public static function findAllVenteAndLigne(): array
     {
         $sql = "SELECT v.*, c.nom, c.telephone 
                 FROM vente v 
                 JOIN client c ON v.client_id = c.id 
                 ORDER BY v.id DESC";
 
-        $stmt = $this->db->query($sql);
-        $ventes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $ventes = Database::query($sql, false);
 
         $resultat = [];
 
-        $stmtLignes = $this->db->prepare("
-            SELECT lv.*, p.libelle 
-            FROM lignevente lv 
-            JOIN produit p ON lv.produit_id = p.id 
-            WHERE lv.vente_id = ?
-        ");
-
         foreach ($ventes as $vente) {
-            $stmtLignes->execute([$vente['id']]);
-            $lignes = $stmtLignes->fetchAll(\PDO::FETCH_ASSOC);
+            $sqlLigne = "SELECT lv.*, p.libelle FROM lignevente lv JOIN produit p ON lv.produit_id = p.id WHERE lv.vente_id = :venteId";
+            $lignes = Database::executeQuery($sqlLigne, ["venteId" => $vente["id"]]);
 
             $vente['lignes'] = $lignes;
             $resultat[] = $vente;
@@ -92,7 +124,7 @@ class VenteRepository extends BaseRepository
         return $resultat;
     }
 
-    public function getStats(): array
+    public static function getStats(): array
     {
         $sql = "
             WITH ca_encaisse AS (
@@ -110,10 +142,7 @@ class VenteRepository extends BaseRepository
             SELECT * FROM ca_encaisse, encours_clients, total_ventes;
         ";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = Database::query($sql);
 
         return $result ? $result : [
             'ca_encaisse_net' => 0,

@@ -10,13 +10,8 @@ class Utilisateur
     private string $motDePasse;
     private ?Role $role;
 
-    public function __construct(string $nom, string $email, string $motDePasse, ?int $role = null)
-    {
-        $this->nom = $nom;
-        $this->email = $email;
-        $this->motDePasse = $motDePasse;
-        $this->role = $role;
-    }
+    public function __construct()
+    {}
 
     public function getId(): ?int
     {
@@ -38,7 +33,7 @@ class Utilisateur
         return $this->motDePasse;
     }
 
-    public function getRole(): ?int
+    public function getRole(): ?Role
     {
         return $this->role;
     }

@@ -188,7 +188,8 @@ $stats = $data["stats"];
                                             <tbody>
                                                 <?php if (!empty($vente['lignes'])): ?>
                                                     <?php foreach ($vente['lignes'] as $ligne): ?>
-                                                        <?php $sousTotal = $ligne['quantite'] * $ligne['prixunitaire']; ?>
+                                                        <?php var_dump($ligne); 
+exit; $sousTotal = $ligne['quantite'] * $ligne['prixunitaire']; ?>
                                                         <tr>
                                                             <td><?= $ligne['libelle'] ?></td>
                                                             <td><?= $ligne['quantite'] ?></td>

@@ -10,16 +10,14 @@ class Vente
     private float $montantEncaisse;
     private string $typePaiement;
     private string $statutPaiement;
-    private ?Utilisateur $utilisateur;
-    private ?Client $client;
+    private Utilisateur $utilisateur;
+    private Client $client;
 
-    public function __construct(string $dateVente, float $montantTotal, float $montantEncaisse, string $typePaiement, string $statutPaiement, ?Utilisateur $utilisateur = null, ?Client $client = null)
+    public function __construct(float $montantTotal, float $montantEncaisse, string $typePaiement, ?Utilisateur $utilisateur = null, ?Client $client = null)
     {
-        $this->dateVente = $dateVente;
         $this->montantTotal = $montantTotal;
         $this->montantEncaisse = $montantEncaisse;
         $this->typePaiement = $typePaiement;
-        $this->statutPaiement = $statutPaiement;
         $this->utilisateur = $utilisateur;
         $this->client = $client;
     }
@@ -54,12 +52,12 @@ class Vente
         return $this->statutPaiement;
     }
 
-    public function getUtilisateur(): ?int
+    public function getUtilisateur(): Utilisateur
     {
         return $this->utilisateur;
     }
 
-    public function getClient(): ?int
+    public function getClient(): Client
     {
         return $this->client;
     }

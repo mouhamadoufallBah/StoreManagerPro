@@ -41,12 +41,12 @@ class Approvisionnement
         return $this->referenceBon;
     }
 
-    public function getUtilisateur(): ?int
+    public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
     }
 
-    public function getFournisseur(): ?int
+    public function getFournisseur(): ?Fournisseur
     {
         return $this->fournisseur;
     }

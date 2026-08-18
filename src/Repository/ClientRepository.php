@@ -2,34 +2,32 @@
 
 namespace StoreManagerPro\Src\Repository;
 
+use StoreManagerPro\Src\Core\Database;
 use StoreManagerPro\Src\Entity\Client;
 
-class ClientRepository extends BaseRepository
+class ClientRepository
 {
-    public function __construct()
+    public static function findAllClient(): array
     {
-        parent::__construct("client");
-    }
 
-    public function findAllClient(): array
-    {
-        $results = $this->findAll();
+        $results = Database::getAllData("client");
 
         $clients = [];
         foreach ($results as $client) {
-            $clients[] = new Client(
-                $client["nom"],
-                $client["telephone"],
-                $client["adresse"],
-                (float)$client["encourstotal"],
-                (float)$client["limitecredit"],
-                (int)$client["id"]
-            );
+            $c = new Client();
+            $c->setNom($client["nom"]);
+            $c->setTelephone($client["telephone"]);
+            $c->setAdresse($client["adresse"]);
+            $c->setEncoursTotal((float)$client["encourstotal"]);
+            $c->setLimiteCredit((float)$client["limitecredit"]);
+            $c->setId((int)$client["id"]);
+
+            $clients[] = $c;
         }
         return $clients;
     }
 
-    public function insert(Client $client): bool
+    public static function insert(Client $client): bool
     {
         $data = [
             'nom' => $client->getNom(),
@@ -38,6 +36,9 @@ class ClientRepository extends BaseRepository
             'encoursTotal' => $client->getEncoursTotal()
         ];
 
-        return $this->save($data);
+        $sql = "INSERT INTO vente (nom, telephone, adresse, encoursTotal) VALUES (:nom, :telephone, :adresse, :encoursTotal)";
+        $latId = Database::executeUpdate($sql, $data);
+
+        return $latId;
     }
 }

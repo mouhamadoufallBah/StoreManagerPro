@@ -45,7 +45,7 @@ class Dette
         return $this->estSoldee;
     }
 
-    public function getVente(): ?int
+    public function getVente(): ?Vente
     {
         return $this->vente;
     }
