@@ -4,19 +4,18 @@ namespace StoreManagerPro\Src\Entity;
 
 class Utilisateur
 {
-    private ?int $id;
+    private int $id;
     private string $nom;
     private string $email;
     private string $motDePasse;
-    private ?int $roleId;
+    private ?Role $role;
 
-    public function __construct(string $nom, string $email, string $motDePasse, ?int $roleId = null, ?int $id = null)
+    public function __construct(string $nom, string $email, string $motDePasse, ?int $role = null)
     {
         $this->nom = $nom;
         $this->email = $email;
         $this->motDePasse = $motDePasse;
-        $this->roleId = $roleId;
-        $this->id = $id;
+        $this->role = $role;
     }
 
     public function getId(): ?int
@@ -39,9 +38,9 @@ class Utilisateur
         return $this->motDePasse;
     }
 
-    public function getRoleId(): ?int
+    public function getRole(): ?int
     {
-        return $this->roleId;
+        return $this->role;
     }
 
     public function setId(?int $id): void
@@ -64,8 +63,8 @@ class Utilisateur
         $this->motDePasse = $motDePasse;
     }
 
-    public function setRoleId(?int $roleId): void
+    public function setRole(Role $role): void
     {
-        $this->roleId = $roleId;
+        $this->role = $role;
     }
 }

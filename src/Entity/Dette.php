@@ -4,21 +4,20 @@ namespace StoreManagerPro\Src\Entity;
 
 class Dette
 {
-    private ?int $id;
+    private int $id;
     private float $montantInitial;
     private float $resteAPayer;
     private string $dateEcheance;
     private bool $estSoldee;
-    private ?int $venteId;
+    private ?Vente $vente;
 
-    public function __construct(float $montantInitial, float $resteAPayer, string $dateEcheance, bool $estSoldee = false, ?int $venteId = null, ?int $id = null)
+    public function __construct(float $montantInitial, float $resteAPayer, string $dateEcheance, bool $estSoldee = false, ?Vente $vente = null)
     {
         $this->montantInitial = $montantInitial;
         $this->resteAPayer = $resteAPayer;
         $this->dateEcheance = $dateEcheance;
         $this->estSoldee = $estSoldee;
-        $this->venteId = $venteId;
-        $this->id = $id;
+        $this->vente = $vente;
     }
 
     public function getId(): ?int
@@ -46,9 +45,9 @@ class Dette
         return $this->estSoldee;
     }
 
-    public function getVenteId(): ?int
+    public function getVente(): ?int
     {
-        return $this->venteId;
+        return $this->vente;
     }
 
     public function setId(?int $id): void
@@ -76,8 +75,8 @@ class Dette
         $this->estSoldee = $estSoldee;
     }
 
-    public function setVenteId(?int $venteId): void
+    public function setVente(Vente $vente): void
     {
-        $this->venteId = $venteId;
+        $this->vente = $vente;
     }
 }

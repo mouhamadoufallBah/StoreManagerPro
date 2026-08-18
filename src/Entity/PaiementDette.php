@@ -4,19 +4,18 @@ namespace StoreManagerPro\Src\Entity;
 
 class PaiementDette
 {
-    private ?int $id;
+    private int $id;
     private float $montantPaye;
     private string $datePaiement;
     private string $methodePaiement;
-    private ?int $detteId;
+    private ?Dette $dette;
 
-    public function __construct(float $montantPaye, string $datePaiement, string $methodePaiement, ?int $detteId = null, ?int $id = null)
+    public function __construct(float $montantPaye, string $datePaiement, string $methodePaiement, ?Dette $dette = null)
     {
         $this->montantPaye = $montantPaye;
         $this->datePaiement = $datePaiement;
         $this->methodePaiement = $methodePaiement;
-        $this->detteId = $detteId;
-        $this->id = $id;
+        $this->dette = $dette;
     }
 
     public function getId(): ?int
@@ -39,9 +38,9 @@ class PaiementDette
         return $this->methodePaiement;
     }
 
-    public function getDetteId(): ?int
+    public function getDette(): ?int
     {
-        return $this->detteId;
+        return $this->dette;
     }
 
     public function setId(?int $id): void
@@ -64,8 +63,8 @@ class PaiementDette
         $this->methodePaiement = $methodePaiement;
     }
 
-    public function setDetteId(?int $detteId): void
+    public function setDette(Dette $dette): void
     {
-        $this->detteId = $detteId;
+        $this->dette = $dette;
     }
 }

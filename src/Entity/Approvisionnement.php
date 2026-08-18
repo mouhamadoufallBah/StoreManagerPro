@@ -8,16 +8,16 @@ class Approvisionnement
     private string $dateApprovisionnement;
     private float $coutTotal;
     private string $referenceBon;
-    private ?int $utilisateurId;
-    private ?int $fournisseurId;
+    private ?Utilisateur $utilisateur;
+    private ?Fournisseur $fournisseur;
 
-    public function __construct(string $dateApprovisionnement, float $coutTotal, string $referenceBon, ?int $utilisateurId = null, ?int $fournisseurId = null, ?int $id = null)
+    public function __construct(string $dateApprovisionnement, float $coutTotal, string $referenceBon, ?Utilisateur $utilisateur = null, ?Fournisseur $fournisseur = null, ?int $id = null)
     {
         $this->dateApprovisionnement = $dateApprovisionnement;
         $this->coutTotal = $coutTotal;
         $this->referenceBon = $referenceBon;
-        $this->utilisateurId = $utilisateurId;
-        $this->fournisseurId = $fournisseurId;
+        $this->utilisateur = $utilisateur;
+        $this->fournisseur = $fournisseur;
         $this->id = $id;
     }
 
@@ -41,14 +41,14 @@ class Approvisionnement
         return $this->referenceBon;
     }
 
-    public function getUtilisateurId(): ?int
+    public function getUtilisateur(): ?int
     {
-        return $this->utilisateurId;
+        return $this->utilisateur;
     }
 
-    public function getFournisseurId(): ?int
+    public function getFournisseur(): ?int
     {
-        return $this->fournisseurId;
+        return $this->fournisseur;
     }
 
     public function setId(?int $id): void
@@ -71,13 +71,13 @@ class Approvisionnement
         $this->referenceBon = $referenceBon;
     }
 
-    public function setUtilisateurId(?int $utilisateurId): void
+    public function setUtilisateur(Utilisateur $utilisateur): void
     {
-        $this->utilisateurId = $utilisateurId;
+        $this->utilisateur = $utilisateur;
     }
 
-    public function setFournisseurId(?int $fournisseurId): void
+    public function setFournisseur(Fournisseur $fournisseur): void
     {
-        $this->fournisseurId = $fournisseurId;
+        $this->fournisseur = $fournisseur;
     }
 }

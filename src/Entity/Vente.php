@@ -4,25 +4,24 @@ namespace StoreManagerPro\Src\Entity;
 
 class Vente
 {
-    private ?int $id;
+    private int $id;
     private string $dateVente;
     private float $montantTotal;
     private float $montantEncaisse;
     private string $typePaiement;
     private string $statutPaiement;
-    private ?int $utilisateurId;
-    private ?int $clientId;
+    private ?Utilisateur $utilisateur;
+    private ?Client $client;
 
-    public function __construct(string $dateVente, float $montantTotal, float $montantEncaisse, string $typePaiement, string $statutPaiement, ?int $utilisateurId = null, ?int $clientId = null, ?int $id = null)
+    public function __construct(string $dateVente, float $montantTotal, float $montantEncaisse, string $typePaiement, string $statutPaiement, ?Utilisateur $utilisateur = null, ?Client $client = null)
     {
         $this->dateVente = $dateVente;
         $this->montantTotal = $montantTotal;
         $this->montantEncaisse = $montantEncaisse;
         $this->typePaiement = $typePaiement;
         $this->statutPaiement = $statutPaiement;
-        $this->utilisateurId = $utilisateurId;
-        $this->clientId = $clientId;
-        $this->id = $id;
+        $this->utilisateur = $utilisateur;
+        $this->client = $client;
     }
 
     public function getId(): ?int
@@ -55,14 +54,14 @@ class Vente
         return $this->statutPaiement;
     }
 
-    public function getUtilisateurId(): ?int
+    public function getUtilisateur(): ?int
     {
-        return $this->utilisateurId;
+        return $this->utilisateur;
     }
 
-    public function getClientId(): ?int
+    public function getClient(): ?int
     {
-        return $this->clientId;
+        return $this->client;
     }
 
     public function setId(?int $id): void
@@ -95,13 +94,13 @@ class Vente
         $this->statutPaiement = $statutPaiement;
     }
 
-    public function setUtilisateurId(?int $utilisateurId): void
+    public function setUtilisateur(Utilisateur $utilisateur): void
     {
-        $this->utilisateurId = $utilisateurId;
+        $this->utilisateur = $utilisateur;
     }
 
-    public function setClientId(?int $clientId): void
+    public function setClient(Client $client): void
     {
-        $this->clientId = $clientId;
+        $this->client = $client;
     }
 }
